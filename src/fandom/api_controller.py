@@ -33,7 +33,6 @@ class ApiController():
         }
         print('logging')
         response = self.session.post(URL, data)
-        print(response.content)
 
     def get_csrf_token(self):
         data = {
@@ -43,7 +42,6 @@ class ApiController():
         }
         response = self.session.post(URL, data=data)
         token = response.json()['query']['tokens']['csrftoken']
-        print(token)
         return token
 
     def create_page(self, title, content):
@@ -56,5 +54,14 @@ class ApiController():
             'bot': True,
             'token': self.csfr_token,
         }
-        print(data)
+        return self.session.post(URL, data=data)
+
+    def get_page(self, title):
+        data = {
+            "action": "query",
+            "format": "json",
+            "titles": title,
+            "prop": "revisions",
+            "rvprop": "content",
+        }
         return self.session.post(URL, data=data)

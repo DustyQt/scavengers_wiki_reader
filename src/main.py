@@ -1,5 +1,8 @@
 from fandom.api_controller import ApiController
 
 controller = ApiController()
-response = controller.create_page('sup', 'this is a chenasasdge in the content')
-print(response.content)
+response = controller.get_page('Mago')
+pages = response.json()['query']['pages']
+for page_id, page in pages.items():
+    content = page['revisions'][0]['*'] if 'revisions' in page else ''
+    print(content)
